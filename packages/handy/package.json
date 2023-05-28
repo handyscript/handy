@@ -1,6 +1,6 @@
 {
   "name": "@handy.js/handy",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "type": "module",
   "author": "handy.js",
   "description": "A set of useful modules that makes the javascript development context easier",
@@ -27,6 +27,13 @@
     "build": "rollup -c rollup.config.js --config-prod"
   },
   "keywords": [
+    "package",
+    "useful",
+    "easier",
+    "easy",
+    "helpful",
+    "help",
+    "helpers",
     "es6",
     "js",
     "javascript",

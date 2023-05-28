@@ -195,9 +195,26 @@ declare global {
      * return a true copy of the array.
      */
     copy(): T[];
+
+    /**
+     * return a random element or an array of random elements from the array based on the given quantity.
+     * @param {number} quantity the quantity of the random elements (default: 1)
+     */
+    sample(quantity?: number): T | T[];
+
+    /**
+     * count the occurrences of a value in an array.
+     * @param {any} target the target to be searched for
+     */
+    count(target: any): number;
+
+    /**
+     * return the difference between two arrays in a new array.
+     */
+    differ(other: any[]): T[];
+
   }    
- 
-}
+};
 
 // const arr = [1, 2, 3, 4, 5];
 // arr.
@@ -500,6 +517,23 @@ Array.prototype.clear = function (){
 Array.prototype.copy = function (){
     if (this.length === 0) return this;
     return [...this];
+};
+
+Array.prototype.sample = function (quantity: number = 1){
+    if (this.length === 0) return this;
+    if (quantity < 1) return [];
+    if (quantity === 1) return this[Math.randomInt(this.length)];
+    return this.sort(() => Math.random() - Math.random()).slice(0, quantity);
+};
+
+Array.prototype.count = function (target: any){
+    if (this.length === 0) return 0;
+    return this.filter(item => item === target).length;
+};
+
+Array.prototype.differ = function (other: any[]){
+    if (this.length === 0) return this;
+    return this.filter(item => !other.includes(item));
 };
 
 export default Array;
