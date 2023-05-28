@@ -27,6 +27,13 @@
     "build": "rollup -c rollup.config.js --config-prod"
   },
   "keywords": [
+    "package",
+    "useful",
+    "easier",
+    "easy",
+    "helpful",
+    "help",
+    "helpers",
     "es6",
     "js",
     "javascript",
