@@ -64,6 +64,13 @@ declare global {
          * @param {number} position The index at which to begin searching the String object. If omitted, search starts at the beginning of the string.
          */
         equalsIgnoreCase(target: string, position?: number, locales?: string | string[] | undefined): boolean;
+
+        /**
+         * escape a string from all white spaces and all control characters (characters with a code point < U+0020).
+         * @param {boolean} [isForAttribute] If true, escape the string for use in HTML attribute.
+         */
+        escape(isForAttribute?: boolean): string;
+
     }
 }
 
@@ -108,6 +115,14 @@ String.prototype.equals = function (target: string, position: number = 0) {
 
 String.prototype.equalsIgnoreCase = function (target: string, position: number = 0, locales?: string | string[] | undefined) {
     return [...this.toLocaleLowerCase(locales)].splice(position).join("") === [...target.toLocaleLowerCase(locales)].splice(position).join("");
+};
+
+String.prototype.escape = function (isForAttribute: boolean = false) {
+    let str = this;
+    if (isForAttribute) {
+        str = str.replace(/"/g, "&quot;");
+    }
+    return str.replace(/[\n\r\t\v\f\b]/g, "").replace(/\s+/g, " ").replace(/[\u0000-\u001F]/g, "");
 };
 
 export default String;
