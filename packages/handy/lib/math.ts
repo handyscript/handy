@@ -73,10 +73,8 @@ declare global{
 
         /**
          * returns a random number between `min` and `max` explicitly
-         * @param {number} min the minimum number by default it is 0
          * @param {number} max the maximum number
-         * @example
-         * HMath.randomInt(1, 10) // 7
+         * @param {number} min the minimum number by default it's 0
          */
         randomInt(max:number, min?:number):number
 
