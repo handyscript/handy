@@ -1,15 +1,17 @@
-name: Auto Assign PR
+name: Auto Assign
 on:
+  issues:
+    types: [opened]
   pull_request:
     types: [opened]
 jobs:
-  assign:
+  run:
     runs-on: ubuntu-latest
     permissions:
+      issues: write
       pull-requests: write
     steps:
-    - name: 'Auto-assign PR'
-      uses: peter-evans/assignee@v2.1.0
+    - name: 'Auto-assign issue'
+      uses: pozil/auto-assign-issue@v1
       with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          assignees: ${{ github.event.pull_request.user.login }}
