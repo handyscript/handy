@@ -125,6 +125,33 @@ Sorting the array using specific sort algorithms like : `bubbleSort`
 
 > There is more to discover ✨
 
+### Matrix
+
+```javascript
+import { Matrix } from "@handy.js/handy";
+
+// Example usage
+const matrix1 = new Matrix([
+  [1, 2, 3],
+  [4, 5, 6],
+]);
+const matrix2 = new Matrix([
+  [1, 2],
+  [3, 4],
+  [5, 6],
+]);
+
+const matrixAdd = Matrix.add(matrix1, matrix2);
+console.log("Matrix 1 + Matrix 2:");
+matrixAdd.log();
+
+const matrixMulti = Matrix.multiply(matrix1, matrix2);
+console.log("Matrix 1 * Matrix 2:");
+matrixMulti.log();
+```
+
+> There is more to discover ✨
+
 ### Math
 
 ```javascript
@@ -142,5 +169,15 @@ String.prototype.toCapitalCase()
 ```
 
 Capitalize the given string.
+
+> There is more to discover ✨
+
+### Number manipulation
+
+```javascript
+Number.prototype.toHuman()
+```
+
+Returns a string representation of a number in human readable format. like 1K, 1M, 1B, 1T, etc.
 
 > There is more to discover ✨

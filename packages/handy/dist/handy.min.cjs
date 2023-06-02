@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-//// ARRAY - HANDY-JS: ARRAY METHODS --------------------------------------------
+//// ------------------------------- HANDY ARRAYS © Handy-JS 5m/21d/23y -------------------------------
 Array.prototype.shuffle = function () {
     if (this.length === 0)
         return this;
@@ -360,8 +360,18 @@ String.prototype.escape = function (isForAttribute = false) {
     }
     return str.replace(/[\n\r\t\v\f\b]/g, "").replace(/\s+/g, " ").replace(/[\u0000-\u001F]/g, "");
 };
+String.prototype.sample = function (wordCount = 0, separator = " ") {
+    let words = this.split(separator);
+    if (wordCount === 0 || wordCount > words.length || wordCount < 0) {
+        return words.slice(0, Math.randomInt(this.length)).join(separator);
+    }
+    return words.slice(0, wordCount).join(separator);
+};
+String.prototype.size = function (separator = " ") {
+    return this.split(separator).length;
+};
 
-//// MATH - HANDY-JS: MATH METHODS --------------------------------------------
+//// ------------------------------- HANDY MATH © Handy-JS 5m/21d/23y -------------------------------
 Object.assign(Math, {
     A: 1.282427129100622636875342568869791727767688927325001192063740432988395529732,
     B: 1.456074948582689671399595351116543266074274800178127884495013673643948446868,
@@ -386,7 +396,37 @@ Object.assign(Math, {
     }
 });
 
-//// OPERATORS - HANDY-JS: OPERATORS METHODS --------------------------------------------
+//// ------------------------------- HANDY NUMBER © Handy-JS 6m/2d/23y -------------------------------
+Number.prototype.toHuman = function () {
+    const num = this.valueOf();
+    const si = [
+        { value: 1, symbol: "" },
+        { value: 1E3, symbol: "K" },
+        { value: 1E6, symbol: "M" },
+        { value: 1E9, symbol: "B" },
+        { value: 1E12, symbol: "T" },
+        { value: 1E15, symbol: "P" },
+        { value: 1E18, symbol: "E" },
+    ];
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
+    for (i = si.length - 1; i > 0; i--)
+        if (num >= si[i].value)
+            break;
+    return (num / si[i].value).toFixed(2).replace(rx, "$1") + si[i].symbol;
+};
+Number.prototype.toReadable = function (separator = "-") {
+    const num = this.valueOf();
+    const rx = /(\d+)(\d{3})/;
+    return String(num).replace(/^\d+/, function (w) {
+        while (rx.test(w)) {
+            w = w.replace(rx, "$1" + separator + "$2");
+        }
+        return w;
+    });
+};
+
+//// ------------------------------- HANDY OPERATORS © Handy-JS 5m/21d/23y -------------------------------
 /**
  * it returns true if all the arguments are true
  * @param  {boolean[]} args
@@ -625,6 +665,7 @@ class HOperators {
     static valloop = valloop;
 }
 
+//// ------------------------------- HANDY HASHMAP © Handy-JS 5m/27d/23y -------------------------------
 /**
  * HashMap implementation in JavaScript
  */
@@ -819,6 +860,206 @@ class HashMap {
     }
 }
 
+//// ------------------------------- HANDY MATRIX © Handy-JS 5m/28d/23y -------------------------------
+/**
+ * implementation of `matrix` operations in typescript/javascript
+ */
+class Matrix {
+    rows;
+    cols;
+    data;
+    constructor(data) {
+        if (Array.isArray(data)) {
+            // Copy the data array
+            this.data = [...data];
+            // Check if all rows have the same number of columns
+            const cols = data[0].length;
+            if (!data.every((row) => row.length === cols)) {
+                throw new Error("All rows must have the same number of columns.");
+            }
+            this.rows = data.length;
+            this.cols = cols;
+        }
+        else {
+            throw new Error("Invalid data format. Expecting an array of arrays.");
+        }
+    }
+    /**
+     * fill the matrix with zeros `0` based on the given `rows` and `columns`
+     */
+    static zeros(rows, cols) {
+        const data = new Array(rows)
+            .fill(0)
+            .map(() => new Array(cols).fill(0));
+        return new Matrix(data);
+    }
+    /**
+     * fill the matrix with ones `1` based on the given `rows` and `columns`
+     */
+    static ones(rows, cols) {
+        const data = new Array(rows)
+            .fill(0)
+            .map(() => new Array(cols).fill(1));
+        return new Matrix(data);
+    }
+    /**
+     * return a matrix with 1 along the `diagonal` and 0 elsewhere, based on the given `size`
+     */
+    static eye(size) {
+        const data = new Array(size).fill(0).map((_, i) => {
+            const row = new Array(size).fill(0);
+            row[i] = 1;
+            return row;
+        });
+        return new Matrix(data);
+    }
+    /**
+     * return a matrix with random values between `min` and `max` based on the given `rows` and `columns`
+     */
+    static random(rows, cols, max, min = 0) {
+        const data = new Array(rows)
+            .fill(0)
+            .map(() => new Array(cols).fill(0).map(() => Math.randomInt(max, min)));
+        return new Matrix(data);
+    }
+    /**
+     * add 2 matrices, `matrix1` + `matrix2`
+     */
+    static add(matrix1, matrix2) {
+        if (!Matrix.isSameSize(matrix1, matrix2)) {
+            throw new Error("Matrix dimensions must be the same for addition.");
+        }
+        const result = matrix1.data.map((row, i) => row.map((val, j) => val + matrix2.data[i][j]));
+        return new Matrix(result);
+    }
+    /**
+     * subtract 2 matrices, `matrix1` - `matrix2`
+     */
+    static subtract(matrix1, matrix2) {
+        if (!Matrix.isSameSize(matrix1, matrix2)) {
+            throw new Error("Matrix dimensions must be the same for subtraction.");
+        }
+        const result = matrix1.data.map((row, i) => row.map((val, j) => val - matrix2.data[i][j]));
+        return new Matrix(result);
+    }
+    /**
+     * multiply 2 matrices, `matrix1` * `matrix2`, complexity: `O(n^3)`
+     */
+    static multiply(matrix1, matrix2) {
+        if (matrix1.cols !== matrix2.rows) {
+            throw new Error("Number of columns in Matrix 1 must match the number of rows in Matrix 2 for multiplication.");
+        }
+        const result = new Array(matrix1.rows)
+            .fill(0)
+            .map(() => new Array(matrix2.cols).fill(0));
+        for (let i = 0; i < matrix1.rows; i++) {
+            for (let j = 0; j < matrix2.cols; j++) {
+                for (let k = 0; k < matrix1.cols; k++) {
+                    result[i][j] += matrix1.data[i][k] * matrix2.data[k][j];
+                }
+            }
+        }
+        return new Matrix(result);
+    }
+    /**
+     * multiply a matrix by a scalar, `matrix` * `scalar`
+     */
+    static scale(matrix, scalar) {
+        const result = matrix.data.map((row) => row.map((val) => val * scalar));
+        return new Matrix(result);
+    }
+    /**
+     * transpose a matrix by swapping rows and columns
+     * @param {Matrix} matrix - matrix to transpose
+     */
+    static transpose(matrix) {
+        const result = new Array(matrix.cols)
+            .fill(0)
+            .map(() => new Array(matrix.rows).fill(0));
+        for (let i = 0; i < matrix.rows; i++) {
+            for (let j = 0; j < matrix.cols; j++) {
+                result[j][i] = matrix.data[i][j];
+            }
+        }
+        return new Matrix(result);
+    }
+    /**
+     * compare tow matrices size
+     */
+    static isSameSize(matrix1, matrix2) {
+        return matrix1.rows === matrix2.rows && matrix1.cols === matrix2.cols;
+    }
+    /**
+     * check if the index of row and column is valid
+     */
+    static isValidIndex(matrix, rowIndex, colIndex) {
+        return (rowIndex >= 0 &&
+            rowIndex < matrix.rows &&
+            colIndex >= 0 &&
+            colIndex < matrix.cols);
+    }
+    /**
+     * return the size of the matrix
+     */
+    size() {
+        return { rows: this.rows, cols: this.cols };
+    }
+    /**
+     * return the shape of the matrix
+     */
+    shape() {
+        return [this.rows, this.cols];
+    }
+    /**
+     * get the value of the matrix at the given row (x-axis) and column (y-axis) (zero-indexed)
+     * @param row {number} The x-axis of the matrix
+     * @param col {number} The y-axis of the matrix
+     */
+    get(row, col) {
+        if (!Matrix.isValidIndex(this, row, col)) {
+            throw new Error("Invalid row or column index.");
+        }
+        return this.data[row][col];
+    }
+    /**
+     * set the value of the matrix at the given row (x-axis) and column (y-axis) (zero-indexed)
+     * @param row {number} The x-axis of the matrix
+     * @param col {number} The y-axis of the matrix
+     * @param value {number} The value to set at the given row and column
+     */
+    set(row, col, value) {
+        if (!Matrix.isValidIndex(this, row, col)) {
+            throw new Error("Invalid row or column index.");
+        }
+        this.data[row][col] = value;
+    }
+    /**
+     * convert the matrix to an array
+     */
+    toArray() {
+        return [...this.data];
+    }
+    /**
+     * convert the matrix to a flattened array
+     */
+    flatten() {
+        return this.data.flat();
+    }
+    /**
+     * make a copy of the matrix
+     */
+    clone() {
+        return new Matrix([...this.data]);
+    }
+    /**
+     * Print the matrix to the `console`
+     */
+    log() {
+        console.log(this.data.map((row) => row.join(" ")).join("\n"));
+    }
+}
+
 exports.HOperators = HOperators;
 exports.HashMap = HashMap;
+exports.Matrix = Matrix;
 //# sourceMappingURL=handy.min.cjs.map

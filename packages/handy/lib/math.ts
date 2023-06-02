@@ -1,4 +1,4 @@
-//// MATH - HANDY-JS: MATH METHODS --------------------------------------------
+//// ------------------------------- HANDY MATH © Handy-JS 5m/21d/23y -------------------------------
 
 declare global{
     interface Math{

@@ -1,4 +1,4 @@
-//// OPERATORS - HANDY-JS: OPERATORS METHODS --------------------------------------------
+//// ------------------------------- HANDY OPERATORS © Handy-JS 5m/21d/23y -------------------------------
 
 /**
  * it returns true if all the arguments are true

@@ -1,6 +1,6 @@
 {
   "name": "@handy.js/handy",
-  "version": "2.1.1",
+  "version": "2.2.1",
   "type": "module",
   "author": "handy.js",
   "description": "A set of useful modules that makes the javascript development context easier",
@@ -19,7 +19,8 @@
   "files": [
     "dist",
     "lib",
-    "index.ts"
+    "index.ts",
+    "README.md"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts",
@@ -35,6 +36,7 @@
     "help",
     "helpers",
     "es6",
+    "es7",
     "js",
     "javascript",
     "modules",
