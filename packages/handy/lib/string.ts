@@ -71,6 +71,18 @@ declare global {
          */
         escape(isForAttribute?: boolean): string;
 
+        /**
+         * return a sample of words from a string.
+         * @param {number} [wordCount] The number of words to get from the string.
+         */
+        sample(wordCount?: number): string;
+
+        /**
+         * return the number of words in a string.
+         * @param {string | RegExp} [separator] Specifies the character to use for separating the string. The separator is treated as a string or a regular expression. If separator is omitted, the array returned contains one element consisting of the entire string.
+         */
+        size(separator?: string | RegExp): number;
+
     }
 }
 
@@ -123,6 +135,18 @@ String.prototype.escape = function (isForAttribute: boolean = false) {
         str = str.replace(/"/g, "&quot;");
     }
     return str.replace(/[\n\r\t\v\f\b]/g, "").replace(/\s+/g, " ").replace(/[\u0000-\u001F]/g, "");
+};
+
+String.prototype.sample = function (wordCount: number = 0, separator: string | RegExp = " ") {
+    let words = this.split(separator);
+    if (wordCount === 0 || wordCount > words.length || wordCount < 0) {
+        return words.slice(0, Math.randomInt(this.length)).join(separator as string);
+    }
+    return words.slice(0, wordCount).join(separator as string);
+};
+
+String.prototype.size = function (separator: string | RegExp = " ") {
+    return this.split(separator).length;
 };
 
 export default String;
