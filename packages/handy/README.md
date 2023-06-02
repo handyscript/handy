@@ -171,3 +171,13 @@ String.prototype.toCapitalCase()
 Capitalize the given string.
 
 > There is more to discover ✨
+
+### Number manipulation
+
+```javascript
+Number.prototype.toHuman()
+```
+
+Returns a string representation of a number in human readable format. like 1K, 1M, 1B, 1T, etc.
+
+> There is more to discover ✨
