@@ -19,7 +19,8 @@
   "files": [
     "dist",
     "lib",
-    "index.ts"
+    "index.ts",
+    "README.md"
   ],
   "scripts": {
     "lint": "eslint . --ext .ts",
