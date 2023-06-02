@@ -1,4 +1,4 @@
-//// STRING - HANDY-JS: STRING METHODS --------------------------------------------
+//// ------------------------------- HANDY STRING © Handy-JS 5m/21d/23y -------------------------------
 declare global {
     interface String {
         /**
@@ -84,28 +84,28 @@ declare global {
         size(separator?: string | RegExp): number;
 
     }
-}
+};
 
 
 String.prototype.toCapitalCase = function () {
     return  this.split(" ").map( (word:string) => { return word[0].toUpperCase() + word.slice(1)}).join(" ") 
-}
+};
 
 String.prototype.toLocaleCapitalCase = function (locales?: string | string[] | undefined) {
     return  this.split(" ").map( (word:string) => { return word[0].toLocaleUpperCase(locales) + word.slice(1)}).join(" ") 
-}
+};
 
 String.prototype.toCamelCase = function () { 
     return  this.split(" ").map( (word:string, index:number) => { return index === 0 ? word[0].toLowerCase() + word.slice(1) : word[0].toUpperCase() + word.slice(1)}).join("") 
-}
+};
 
 String.prototype.toLocaleCamelCase = function (locales?: string | string[] | undefined) {
     return  this.split(" ").map( (word:string, index:number) => { return index === 0 ? word[0].toLocaleLowerCase(locales) + word.slice(1) : word[0].toLocaleUpperCase(locales) + word.slice(1)}).join("")
-}
+};
 
 String.prototype.reverse = function () {
     return [...this].reverse().join("");
-}
+};
 
 String.prototype.indexesOf = function (target: string, startPosition?: number | undefined) {
     let indexes: number[] = [];
